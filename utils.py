@@ -10,7 +10,7 @@ def timer(func):
         start = time.time()
         res = func(*args, **kwargs)
         print(f'method: {wrapper.__name__}')
-        print(f'time consuming: {round(time.time() - start, 3)}s')
+        print(f'time consuming: {round(time.time() - start, 5)}s')
         print('-' * 50)
 
         return res

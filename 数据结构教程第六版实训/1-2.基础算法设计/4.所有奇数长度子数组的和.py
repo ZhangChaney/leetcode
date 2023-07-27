@@ -83,12 +83,36 @@ def solutionTwo(arr: list) -> int:
 
 
 @timer
-def solutionThree(arr: list) -> list:
-    pass
+def solutionThree(arr: list) -> int:
+    """
+    数学：
+        计算每个元素出现的次数求和，利用第i-1个元素出现的次数求得第i个元素出现的次数(动态规划思想)
+        1. 第一个元素出现的次数固定为 len + 1 // 2, 记p(0)
+        2. 第二个元素出现的次数为：
+            - 第一个元素出现的次数
+            - 减去仅有第一个元素出现，没有第二个元素出现的次数（i + 1 // 2）
+            - 加上第二个元素出现但第第一元素未出现的次数(len - i + 1 // 2)
+        3. 得到递推公式p(i) = p(0) - (i + 1 // 2) + (len - i + 1 // 2)
+        4. 根据以上公式求得所有元素出现的次数，最后求和
+        5. 复杂度O（n）， 2次单层遍历0(n + n)
+    """
+    ans = 0
+    lens = len(arr)
+    occurs = [0] * lens  # 数组记录每个元素出现的次数
+    occurs[0] = (lens + 1) // 2  # arr[0] 出现的次数
+    for i in range(1, lens):
+        occurs[i] = occurs[i - 1] + ((lens - i + 1) // 2) - ((i + 1) // 2)
+
+    for i in range(lens):
+        # 总和等于累加（所有元素*该元素出现次数）
+        ans += (arr[i] * occurs[i])
+
+    print(f'answer:  {ans}')
+    return ans
 
 
 if __name__ == '__main__':
-    data = list(range(2000))
-    solutionOne(data)  # 6s
-    solutionTwo(data)  # 0.14s
-    solutionThree(data)
+    data = list(range(3000))
+    solutionOne(data)  # 19.92s
+    solutionTwo(data)  # 0.399s
+    solutionThree(data)  # 0.0001s
